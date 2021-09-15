@@ -1,0 +1,87 @@
+$small: 567px;
+$medium: 785px;
+
+.sidebar {
+  height: 100%;
+  color: white;
+  font-size: 14px;
+  position: fixed;
+  top: 0;
+  z-index: 1000;
+  background: #1b1b1b;
+
+  .container {
+    .sideNav {
+      background-color: #272626;
+    }
+  }
+  .icon {
+    display: flex;
+    align-items: center;
+    vertical-align: center;
+    text-decoration: none;
+    cursor: pointer;
+  }
+  .menuButton {
+    display: flex;
+    align-items: center;
+  }
+  .filter_input {
+    width: 50px;
+  }
+   .sideDiv {
+    position: absolute;
+    left: 100px;
+    width: 250px;
+    border-radius: 20px;
+    background-color: rgb(34, 33, 33);
+
+    .option_container {
+      padding: 20px;
+      .movies_series {
+        display: flex;
+      }
+      .rating {
+        display: flex;
+
+        .input_rating {
+          display: flex;
+          margin-top: 10px;
+          margin-bottom: 5px;
+          p {
+            margin-left: 5px;
+          }
+          input {
+            margin-left: 5px;
+            margin-right: 5px;
+            width: 20px;
+            border: 1px solid white;
+            background-color: transparent;
+            color: white;
+          }
+        }
+      }
+
+      .option {
+        display: flex;
+        align-items: center;
+        margin-top: 5px;
+
+        input {
+          cursor: pointer;
+          margin-left: 20px;
+        }
+      }
+      .option_button {
+        cursor: pointer;
+        padding: 10px;
+        background-color: transparent;
+        border: 1px solid white;
+        color: white;
+        border-radius: 10px;
+        margin-top: 10px;
+        margin-left: 30px;
+      }
+    }
+  }
+}

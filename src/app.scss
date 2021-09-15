@@ -1,0 +1,25 @@
+$small: 567px;
+$medium: 785px;
+:root {
+  --main-color: #0b0b0b;
+}
+
+* {
+  margin: 0px;
+  font-family: "Roboto", sans-serif;
+}
+
+.App {
+  margin: 0 auto;
+  width: 80%;
+  @media screen and (max-width: $medium) {
+    width: 100%;
+  }
+  @media screen and (max-width: $small) {
+    width: 100%;
+  }
+}
+
+.app_wrapper {
+  background: black;
+}

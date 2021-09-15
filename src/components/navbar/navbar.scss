@@ -1,0 +1,108 @@
+$small: 567px;
+$medium: 785px;
+
+.navbar {
+  width: 80%;
+  color: white;
+  font-size: 14px;
+  position: fixed;
+  top: 0;
+  z-index: 999;
+  background-color: #1b1b1b;
+  @media screen and (max-width: $medium) {
+    width: 100%;
+  }
+  @media screen and (max-width: $small) {
+    width: 100%;
+  }
+
+  .container {
+    padding: 0px 50px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 70px;
+
+    .left {
+      display: flex;
+      align-items: center;
+
+      img {
+        height: 25px;
+        margin-left: 10px;
+        margin-right: 40px;
+      }
+
+      .searchField {
+        border-radius: 20px;
+        width: 300px;
+        height: 30px;
+        background-color: #272626;
+        color: white;
+
+        @media screen and (max-width: $medium) {
+          width: 150px;
+        }
+        @media screen and (max-width: $small) {
+          width: 100px;
+        }
+      }
+      textarea:focus,
+      input:focus {
+        outline: none;
+      }
+      .logo {
+        width: 40px;
+        height: 40px;
+        margin-left: 25px;
+        -webkit-transform: rotate(-10deg);
+        -moz-transform: rotate(-10deg);
+        -ms-transform: rotate(-10deg);
+        -o-transform: rotate(-10deg);
+        transform: rotate(-10deg);
+        -moz-transform: rotate(-10deg);
+      }
+    }
+
+    .right {
+      display: flex;
+      align-items: center;
+
+      .icon {
+        margin: 0px 15px;
+        cursor: pointer;
+        color: white;
+      }
+
+      img {
+        width: 30px;
+        height: 30px;
+        border-radius: 5px;
+        object-fit: cover;
+        cursor: pointer;
+      }
+
+      .profile {
+        .options {
+          display: none;
+          background-color: var(--main-color);
+          border-radius: 5px;
+          width: 150px;
+        }
+
+        .button {
+          color: white;
+          cursor: pointer;
+        }
+
+        &:hover {
+          .options {
+            display: flex;
+            flex-direction: column;
+            position: absolute;
+          }
+        }
+      }
+    }
+  }
+}
