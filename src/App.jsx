@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import "./app.scss";
 import Home from "../src/components/pages/home/Home";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
@@ -9,18 +10,26 @@ import Movie from "../src/components/pages/movie/Movie";
 import MovieList from "./components/pages/movieList/MovieList";
 import Sidebar from "./components/sidebar/Sidebar";
 import Serie from "./components/pages/serie/Serie";
+import { auth } from "./services/routes/userProfile"
 
 function App() {
+
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    setIsLoggedIn(auth.getAuthenticated());
+  }, []);
+
   return (
     <div className="app_wrapper">
       <BrowserRouter>
         <div className="App" type="movie">
-          <Navbar />
-          <Sidebar />
+          <Navbar isLoggedId={isLoggedIn} />
+          <Sidebar isLoggedId={isLoggedIn} />
           <Switch>
-            <Route path="/" exact component={Home}></Route>
-            <Route path="/register" exact component={Register}></Route>
-            <Route path="/login" exact component={Login}></Route>
+            <Route path="/" isLoggedId={isLoggedIn} exact component={Home}></Route>
+            <Route path="/register" setIsLoggedIn={setIsLoggedIn} exact component={Register}></Route>
+            <Route path="/login" setIsLoggedIn={setIsLoggedIn} exact component={Login}></Route>
             <Route path="/profile" exact component={Profile}></Route>
             <Route path="/movie" exact component={Movie}></Route>
             <Route path="/movieList" exact component={MovieList}></Route>

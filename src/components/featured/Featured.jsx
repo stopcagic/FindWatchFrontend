@@ -15,10 +15,7 @@ export default function Featured({ type }) {
         </div>
 
         <span className="desc">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Vitae
-          adipisci repellendus eum quasi illo, velit numquam, maxime tempora
-          sint deleniti, aliquid qui? Facilis, adipisci! Ratione hic repudiandae
-          temporibus eum earum?
+          Set in Madrid, a mysterious man known as "The Professor" recruits a group of eight people, who choose city names as their aliases, to carry out an ambitious plan that involves entering the Royal Mint of Spain, and escaping with €984 million. After taking 67 people hostage inside the Mint, the team plans to remain inside for 11 days to print the money as they deal with elite police forces.
         </span>
       </div>
     </div>

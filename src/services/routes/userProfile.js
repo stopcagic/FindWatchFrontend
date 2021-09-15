@@ -9,7 +9,7 @@ const auth = {
     let data = await response.data;
     let status = response.status;
 
-    if (status == 400)
+    if (status === 400)
       return {
         status: false,
         message: data,

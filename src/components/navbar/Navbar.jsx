@@ -5,9 +5,25 @@ import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import Logo from "../../images/naslov.png";
 import { Link } from "react-router-dom";
 import { Button } from "@material-ui/core";
-/* import { Button } from "@material-ui/core"; */
 
-const Navbar = () => {
+const Navbar = ({ isLoggedId }) => {
+
+  const ConditionalLink = (isLoggedIn) => {
+    if (isLoggedIn === true) {
+
+      console.log(isLoggedIn)
+
+      return <Link to="/profile">
+        <AccountCircleIcon className="icon" />
+      </Link>
+    }
+    else {
+      return <Link to="/register">
+        <AccountCircleIcon className="icon" />
+      </Link>
+    }
+  }
+
   return (
     <div className="navbar">
       <div className="container">
@@ -21,9 +37,7 @@ const Navbar = () => {
         <div className="right">
           <Notifications className="icon" />
 
-          <Link to="/profile">
-            <AccountCircleIcon className="icon" />
-          </Link>
+          <ConditionalLink isLoggedIn={isLoggedId} />
 
           <div className="profile">
             <ArrowDropDown className="icon" />

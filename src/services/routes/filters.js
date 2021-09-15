@@ -9,8 +9,8 @@ const filters = {
     releaseYearFrom = null,
     releaseYearTo = null
   ) {
-    let response = await Services.post("/user/login", {
-      type: "movie",
+    let response = await Services.post("/user/filter", {
+      type: type,
       releaseYear: {
         from: releaseYearFrom,
         to: releaseYearTo,

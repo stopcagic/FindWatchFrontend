@@ -8,7 +8,7 @@ import "./list.scss";
 import { Link } from "react-router-dom";
 import { movies } from "../../services/routes/movies";
 
-export default function List({ type }) {
+export default function List({ type, isLoggedIn }) {
   const [isMoved, setIsMoved] = useState(false);
   const [slideNumber, setSlideNumber] = useState(0);
   const [data, setData] = useState([]);
@@ -53,20 +53,36 @@ export default function List({ type }) {
           style={{ display: !isMoved && "none" }}
         />
         <div className="container" ref={listRef}>
-          <Link to="/movie">
-            <div className="listItem">
-              <img
-                src="https://images.justwatch.com/poster/249138360/s592"
-                alt="{name}"
-              />
-            </div>
-          </Link>
+          {
+            isLoggedIn ?
+              <Link to="/movie">
+                <div className="listItem">
+                  <img
+                    src="https://images.justwatch.com/poster/249138360/s592"
+                    alt="{name}"
+                  />
+                </div>
+              </Link> :
+              <Link to="/register">
+                <div className="listItem">
+                  <img
+                    src="https://images.justwatch.com/poster/249138360/s592"
+                    alt="{name}"
+                  />
+                </div>
+              </Link>
+          }
+
 
           {/*    {data.map((x) => {
-            return (
+            return ({
+              isLoggedIn ? 
               <Link to="/movie" key={x.id}>
-                <ListItem key={x.id} title={x.title} image={x.image} />
-              </Link>
+                <ListItem isLoggedIn={isLoggedIn} key={x.id} title={x.title} image={x.image} />
+              </Link> :
+              <Link to="/register" key={x.id}>
+                <ListItem isLoggedIn={isLoggedIn} key={x.id} title={x.title} image={x.image} />
+              </Link>}
             );
           })} */}
         </div>

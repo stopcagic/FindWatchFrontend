@@ -8,8 +8,10 @@ import SideNav, { NavItem, NavIcon, NavText } from "@trendmicro/react-sidenav";
 import "@trendmicro/react-sidenav/dist/react-sidenav.css";
 import { Link } from "react-router-dom";
 
-function Sidebar() {
+function Sidebar({ isLoggedIn }) {
   const [showDiv, setShowDiv] = useState(false);
+
+
 
   return (
     <div className="sidebar">
@@ -101,55 +103,61 @@ function Sidebar() {
             </div>
           ) : null}
         </div>
+        <div>
+          <SideNav className="sideNav">
+            {isLoggedIn ?
+              <div>
+                <SideNav.Nav className="icon" eventkey="home">
+                  {/* -------------- Filter -------------- */}
+                  <NavItem onClick={() => setShowDiv(!showDiv)} eventkey="home">
+                    <NavIcon>
+                      <TvIcon />
+                    </NavIcon>
 
-        <SideNav className="sideNav">
-          <SideNav.Nav className="icon" eventkey="home">
-            {/* -------------- Filter -------------- */}
-            <NavItem onClick={() => setShowDiv(!showDiv)} eventkey="home">
-              <NavIcon>
-                <TvIcon />
-              </NavIcon>
+                    <NavText>Filter</NavText>
+                  </NavItem>
+                  {/* ---------------------------- */}
+                </SideNav.Nav>
 
-              <NavText>Filter</NavText>
-            </NavItem>
-            {/* ---------------------------- */}
-          </SideNav.Nav>
+                <Link to="/movieList">
+                  <SideNav.Nav>
+                    {/* -------------- Pozitivno ocijenjeno -------------- */}
+                    <NavItem eventkey="home">
+                      <NavIcon>
+                        <ThumbUpAltIcon />
+                      </NavIcon>
+                      <NavText>Pozitivno ocjenjeno</NavText>
+                    </NavItem>
+                  </SideNav.Nav>
+                </Link>
+                <Link to="/movieList">
+                  <SideNav.Nav>
+                    {/* -------------- Gledati kasnije -------------- */}
+                    <NavItem eventkey="home">
+                      <NavIcon>
+                        <AccessTimeIcon />
+                      </NavIcon>
+                      <NavText>Gledati Kasnije</NavText>
+                    </NavItem>
+                  </SideNav.Nav>
+                </Link>
+                <Link to="/movieList">
+                  <SideNav.Nav>
+                    {/* -------------- Omiljeno -------------- */}
 
-          <Link to="/movieList">
-            <SideNav.Nav>
-              {/* -------------- Pozitivno ocijenjeno -------------- */}
-              <NavItem eventkey="home">
-                <NavIcon>
-                  <ThumbUpAltIcon />
-                </NavIcon>
-                <NavText>Pozitivno ocjenjeno</NavText>
-              </NavItem>
-            </SideNav.Nav>
-          </Link>
-          <Link to="/movieList">
-            <SideNav.Nav>
-              {/* -------------- Gledati kasnije -------------- */}
-              <NavItem eventkey="home">
-                <NavIcon>
-                  <AccessTimeIcon />
-                </NavIcon>
-                <NavText>Gledati Kasnije</NavText>
-              </NavItem>
-            </SideNav.Nav>
-          </Link>
-          <Link to="/movieList">
-            <SideNav.Nav>
-              {/* -------------- Omiljeno -------------- */}
-
-              <NavItem eventkey="home">
-                <NavIcon>
-                  <FavoriteIcon />
-                </NavIcon>
-                <NavText>Omiljeno</NavText>
-              </NavItem>
-            </SideNav.Nav>
-          </Link>
-        </SideNav>
+                    <NavItem eventkey="home">
+                      <NavIcon>
+                        <FavoriteIcon />
+                      </NavIcon>
+                      <NavText>Omiljeno</NavText>
+                    </NavItem>
+                  </SideNav.Nav>
+                </Link>
+              </div>
+              : null
+            }
+          </SideNav>
+        </div>
       </div>
     </div>
   );
