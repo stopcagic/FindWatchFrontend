@@ -10,7 +10,7 @@ import Movie from "../src/components/pages/movie/Movie";
 import MovieList from "./components/pages/movieList/MovieList";
 import Sidebar from "./components/sidebar/Sidebar";
 import Serie from "./components/pages/serie/Serie";
-import { auth } from "./services/routes/userProfile"
+import { auth } from "./services/index"
 
 function App() {
 

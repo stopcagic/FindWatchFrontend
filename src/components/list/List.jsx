@@ -53,27 +53,15 @@ export default function List({ type, isLoggedIn }) {
           style={{ display: !isMoved && "none" }}
         />
         <div className="container" ref={listRef}>
-          {
-            isLoggedIn ?
-              <Link to="/movie">
-                <div className="listItem">
-                  <img
-                    src="https://images.justwatch.com/poster/249138360/s592"
-                    alt="{name}"
-                  />
-                </div>
-              </Link> :
-              <Link to="/register">
-                <div className="listItem">
-                  <img
-                    src="https://images.justwatch.com/poster/249138360/s592"
-                    alt="{name}"
-                  />
-                </div>
-              </Link>
-          }
 
-
+          <Link to="/movie">
+            <div className="listItem">
+              <img
+                src="https://images.justwatch.com/poster/249138360/s592"
+                alt="{name}"
+              />
+            </div>
+          </Link>
           {/*    {data.map((x) => {
             return ({
               isLoggedIn ? 

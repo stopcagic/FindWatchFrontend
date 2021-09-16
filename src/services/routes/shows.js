@@ -1,4 +1,4 @@
-import Services from "../index";
+import { Services } from "../index";
 
 const shows = {
   async mostPopular() {

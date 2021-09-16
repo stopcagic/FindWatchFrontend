@@ -5,24 +5,26 @@ import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import Logo from "../../images/naslov.png";
 import { Link } from "react-router-dom";
 import { Button } from "@material-ui/core";
+import { auth } from "../../services/index"
 
 const Navbar = ({ isLoggedId }) => {
 
-  const ConditionalLink = (isLoggedIn) => {
-    if (isLoggedIn === true) {
+  // const ConditionalLink = (isLoggedIn) => {
+  //   if (isLoggedIn === true) {
 
-      console.log(isLoggedIn)
+  //     console.log(isLoggedIn)
 
-      return <Link to="/profile">
-        <AccountCircleIcon className="icon" />
-      </Link>
-    }
-    else {
-      return <Link to="/register">
-        <AccountCircleIcon className="icon" />
-      </Link>
-    }
-  }
+  //     return <Link to="/profile">
+  //       <AccountCircleIcon className="icon" />
+  //     </Link>
+  //   }
+  //   else {
+  //     return <Link to="/register">
+  //       <AccountCircleIcon className="icon" />
+  //     </Link>
+  //   }
+  // }
+  const logout = () => auth.logout()
 
   return (
     <div className="navbar">
@@ -37,7 +39,9 @@ const Navbar = ({ isLoggedId }) => {
         <div className="right">
           <Notifications className="icon" />
 
-          <ConditionalLink isLoggedIn={isLoggedId} />
+          <Link to="/profile">
+            <AccountCircleIcon className="icon" />
+          </Link>
 
           <div className="profile">
             <ArrowDropDown className="icon" />
@@ -50,7 +54,7 @@ const Navbar = ({ isLoggedId }) => {
                 Registriraj se
               </Button>
               <hr />
-              <Button className="button">Odjavi se</Button>
+              <Button className="button" onClick={logout}>Odjavi se</Button>
             </div>
           </div>
         </div>

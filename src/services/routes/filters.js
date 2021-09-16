@@ -1,28 +1,31 @@
-import Services from "../index";
+import { Services } from "../index";
 
 const filters = {
   async filter(
-    type = "movie",
+    type = null,
     genres = null,
     ratingMin = null,
     ratingMax = null,
     releaseYearFrom = null,
     releaseYearTo = null
   ) {
-    let response = await Services.post("/user/filter", {
+
+    const body = {
       type: type,
       releaseYear: {
         from: releaseYearFrom,
-        to: releaseYearTo,
+        to: releaseYearTo
       },
       genres: genres,
       rating: {
         min: ratingMin,
-        max: ratingMax,
-      },
-    });
+        max: ratingMax
+      }
+    }
+
+    let response = await Services.post("/filter", body);
     let data = await response.data;
-    return data;
+    return data.items;
   },
 };
 

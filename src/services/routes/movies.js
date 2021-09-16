@@ -1,4 +1,4 @@
-import Services from "../index";
+import { Services } from "../index";
 
 const movies = {
   async mostPopular() {
