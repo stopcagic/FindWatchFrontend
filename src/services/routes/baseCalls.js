@@ -11,7 +11,18 @@ const fetch = {
       message: data,
     };
   },
+  async getMovieImdbInfo(imdb_id, type, user_id) {
+    let response = await Services.get(
+      `/jw_info?imdb_id=${imdb_id}&type=${type}&user_id=${user_id}`
+    );
+    let data = await response.data;
+    let status = response.status
 
+    return {
+      status: status,
+      message: data,
+    };;
+  },
   async getMovieInfo(jw_id, type, user_id) {
     let response = await Services.get(
       `/jw_info?jw_id=${jw_id}&type=${type}&user_id=${user_id}`
@@ -45,7 +56,13 @@ const fetch = {
     };
   },
   async getRecommended(user_id) {
-    let response = await Services.get(`/recommendations?userId=${user_id}`);
+    let response;
+    if (user_id === undefined) {
+      response = await Services.get(`/recommendations`);
+    }
+    else {
+      response = await Services.get(`/recommendations?userId=${user_id}`);
+    }
     let data = await response.data;
     let status = response.status
 

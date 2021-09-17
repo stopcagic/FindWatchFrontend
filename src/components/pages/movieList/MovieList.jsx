@@ -37,13 +37,19 @@ function MovieList(data) {
                     :
                     <div className="item" key={x.jw_entity_id
                     }>
-                      <Link to="/serie">
+                      <Link to={{
+                        pathname: "/serie",
+                        data: {
+                          id: x.id,
+                          type: "show"
+                        }
+                      }}>
                         <ListItem key={x.jw_entity_id} title={x.title} image={x.poster} />
                       </Link>
                     </div>
 
                   return item;
-                }) : <div><h1> There are currently no movies or shows. </h1></div>
+                }) : <div className="noItems"><h1> There are currently no movies or shows. </h1></div>
               }
             </div>
           </div>

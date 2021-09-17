@@ -9,9 +9,11 @@ const Home = ({ isLoggedIn }) => {
       <div className="content">
         <Featured type="movie" />
 
+        <List isLoggedIn={isLoggedIn} type="Recommended" />
         <List isLoggedIn={isLoggedIn} type="Most Popular" />
         <List isLoggedIn={isLoggedIn} type="Comming Soon" />
         <List isLoggedIn={isLoggedIn} type="In Theaters" />
+
       </div>
     </div>
   );

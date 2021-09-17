@@ -1,4 +1,4 @@
-$small: 567px;
+ $small: 567px;
 $medium: 785px;
 ::-webkit-scrollbar {
   width: 10px;
@@ -30,30 +30,34 @@ $medium: 785px;
       background-color: rgb(29, 28, 28);
       color: white;
       padding: 20px;
-    }
-    .serie_container {
-      display: table;
-      width: 100%;
-      @media screen and (max-width: $medium) {
-        width: 80%;
-      }
-      @media screen and (max-width: $small) {
-        width: 20%;
-      }
+      .icon_container {
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
 
-      .first_icon_container {
-        width: 50%;
-        background-color: rgb(32, 31, 31);
-        border-top-left-radius: 20px;
-        padding: 10px;
-        display: table-cell;
-      }
-      .second_icon_container {
-        width: 50%;
-        padding: 10px;
-        background-color: rgb(32, 31, 31);
-        border-top-right-radius: 20px;
-        display: table-cell;
+        .first_icon_container {
+          display: flex;
+          @media screen and (max-width: $medium) {
+            margin-top: 10px;
+          }
+          @media screen and (max-width: $small) {
+            margin-top: 10px;
+          }
+
+          .favourite_icon {
+            cursor: pointer;
+            font-size: 26px;
+            margin-left: 20px;
+          }
+        }
+        .second_icon_container {
+          display: flex;
+          .right_icon {
+            margin-left: 15px;
+            margin-top: 10px;
+            cursor: pointer;
+          }
+        }
       }
     }
 
@@ -82,30 +86,6 @@ $medium: 785px;
       background-color: black;
     }
 
-    .icons_left {
-      width: 50%;
-      display: flex;
-
-      h2 {
-        margin: 20px;
-        color: white;
-      }
-      .favourite_icon {
-        cursor: pointer;
-        font-size: 45px;
-        margin-left: 80px;
-      }
-    }
-    .icons_right {
-      display: flex;
-      justify-content: flex-end;
-      margin-right: 10px;
-      .right_icon {
-        font-size: 28px;
-        margin-left: 20px;
-        cursor: pointer;
-      }
-    }
     .season_icon {
       position: absolute;
       color: white;

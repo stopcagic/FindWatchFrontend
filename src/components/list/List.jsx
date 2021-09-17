@@ -7,11 +7,14 @@ import ListItem from "../listItem/ListItem";
 import "./list.scss";
 import { Link } from "react-router-dom";
 import { movies } from "../../services/routes/movies";
+import { fetch } from "../../services/routes/baseCalls"
+import { auth } from "../../services/index"
 
 export default function List({ type, isLoggedIn }) {
   const [isMoved, setIsMoved] = useState(false);
   const [slideNumber, setSlideNumber] = useState(0);
   const [data, setData] = useState([]);
+
 
   const listRef = useRef();
 
@@ -29,18 +32,35 @@ export default function List({ type, isLoggedIn }) {
   };
 
   const fetchData = async (call) => {
-    let data = await call();
-    if (data != null) setData(data.items);
+    const userId = auth.getUserId()
+    let data;
+
+    if (userId === "User not logged In.") data = await call();
+    else data = await call(userId);
+
+    if (data.message !== null) {
+      if (data.message !== undefined) {
+        if (data.message.items === undefined) {
+          setData(data.message);
+        }
+        else {
+          setData(data.message.items);
+        }
+      }
+    }
   };
+
 
   useEffect(() => {
     let mostPopular = type === "Most Popular" ? movies.mostPopular : null;
     let commingSoon = type === "Comming Soon" ? movies.commingSoon : null;
     let inTheaters = type === "In Theaters" ? movies.inTheaters : null;
-    /* 
-    if (mostPopular && !commingSoon && !inTheaters) fetchData(mostPopular);
-    if (!mostPopular && commingSoon && !inTheaters) fetchData(commingSoon);
-    if (!mostPopular && !commingSoon && inTheaters) fetchData(inTheaters); */
+    let recommeded = type === "Recommended" ? fetch.getRecommended : null;
+    // if (mostPopular && !commingSoon && !inTheaters && !recommeded) fetchData(mostPopular);
+    // if (!mostPopular && commingSoon && !inTheaters && !recommeded) fetchData(commingSoon);
+    // if (!mostPopular && !commingSoon && inTheaters && !recommeded) fetchData(inTheaters);
+    if (!mostPopular && !commingSoon && !inTheaters && recommeded) fetchData(recommeded);
+
   }, []);
   return (
     <div className="list">
@@ -54,25 +74,60 @@ export default function List({ type, isLoggedIn }) {
         />
         <div className="container" ref={listRef}>
 
-          <Link to="/movie">
+          {/* <Link to="/movie">
             <div className="listItem">
               <img
                 src="https://images.justwatch.com/poster/249138360/s592"
                 alt="{name}"
               />
             </div>
-          </Link>
-          {/*    {data.map((x) => {
-            return ({
-              isLoggedIn ? 
-              <Link to="/movie" key={x.id}>
-                <ListItem isLoggedIn={isLoggedIn} key={x.id} title={x.title} image={x.image} />
-              </Link> :
-              <Link to="/register" key={x.id}>
-                <ListItem isLoggedIn={isLoggedIn} key={x.id} title={x.title} image={x.image} />
-              </Link>}
-            );
-          })} */}
+          </Link> */}
+          {
+            type === "Recommended" ?
+              data.map((x) => {
+                let item = x.object_type === "movie" ?
+                  <div className="item" key={x.jw_entity_id
+                  }>
+                    <Link to={{
+                      pathname: "/movie",
+                      data: {
+                        id: x.id,
+                        type: "movie"
+                      }
+                    }} >
+                      <ListItem key={x.jw_entity_id} title={x.title} image={x.poster} />
+                    </Link>
+                  </div>
+                  :
+                  <div className="item" key={x.jw_entity_id
+                  }>
+                    <Link to={{
+                      pathname: "/serie",
+                      data: {
+                        id: x.id,
+                        type: "show"
+                      }
+                    }}>
+                      <ListItem key={x.jw_entity_id} title={x.title} image={x.poster} />
+                    </Link>
+                  </div>
+
+                return item;
+              })
+              :
+              data.map((x) => {
+                return (
+                  <Link to={{
+                    pathname: "/movie",
+                    data: {
+                      id: x.id,
+                      type: "movie"
+                    }
+                  }} key={x.id}>
+                    <ListItem isLoggedIn={isLoggedIn} key={x.id} title={x.title} image={x.image} />
+                  </Link>
+                );
+              })}
         </div>
         <ArrowForwardIosOutlined
           className="sliderArrow right"

@@ -1,3 +1,6 @@
+ $small: 567px;
+$medium: 785px;
+
 .login {
   width: 80vw;
   height: 100vh;
@@ -10,6 +13,14 @@
     url("https://cdn.wallpapersafari.com/28/88/2W3JwH.jpg");
   background-size: cover;
   position: relative;
+  @media screen and (max-width: $medium) {
+    width: 100%;
+    overflow: hidden;
+  }
+  @media screen and (max-width: $small) {
+    width: 100%;
+    overflow: hidden;
+  }
 
   .container {
     width: 100%;
@@ -22,6 +33,16 @@
     align-items: center;
     justify-content: center;
     color: white;
+
+    @media screen and (max-width: $medium) {
+      flex-direction: row;
+      z-index: 1000;
+    }
+
+    @media screen and (max-width: $small) {
+      flex-direction: row;
+      z-index: 1000;
+    }
 
     form {
       width: 400px;
@@ -59,7 +80,9 @@
       span {
         color: lightgray;
         b {
+          margin-left: 10px;
           color: white;
+          text-decoration: underline;
         }
       }
     }

@@ -57,7 +57,6 @@ function Sidebar({ isLoggedIn }) {
 
     if (userId !== "User not logged In.") {
       const response = await getUserData.getByProperty(userId, property)
-      console.log(response.message);
       if (response.status === 200) {
         let data = {};
         let title = property === "watch_later" ? "Watch Later" : property === "favorite" ? "Favorite" : property === "like" ? "Liked" : "List Of"

@@ -10,6 +10,14 @@ $medium: 785px;
   z-index: 1000;
   background: #1b1b1b;
 
+  @media screen and (max-width: $medium) {
+      z-index: 0;
+    }
+
+    @media screen and (max-width: $small) {
+      z-index: 0;
+    }
+
   .container {
     .sideNav {
       background-color: #272626;

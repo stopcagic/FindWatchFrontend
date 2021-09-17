@@ -130,7 +130,14 @@ function Movie(props) {
     const userId = auth.getUserId();
 
     if (userId !== "User not logged In.") {
-      const response = await fetch.getMovieInfo(data.id, data.type, userId)
+      let response;
+      let id = data.id.toString()
+      if (id.startsWith("tt")) {
+        response = await fetch.getMovieImdbInfo(data.id, data.type, userId)
+      }
+      else {
+        response = await fetch.getMovieInfo(data.id, data.type, userId)
+      }
       if (response.status === 200) {
         const userData = response.message.userData.baseData
         setItem(response.message);
@@ -173,62 +180,56 @@ function Movie(props) {
                 <p >{item.original_release_year}</p>
                 <div className="icon_container">
                   <div className="first_icon_container">
-                    <div className="icons_left">
-                      <div className="star_favoutire">
-                        <h2>{rating}/10</h2>
+                    <h2>{rating}/10</h2>
+                    <div className="star_favoutire">
+                      <Rating
+                        stars={10}
+                        onClick={handleRating}
+                        ratingValue={rating} /* Rating Props */
+                      />
 
-                        <Rating
-                          stars={10}
-                          onClick={handleRating}
-                          ratingValue={rating} /* Rating Props */
-                        />
-
-                        <FavoriteIcon
-                          className="favourite_icon"
-                          style={{ color: favoriteColor ? "red" : "grey" }}
-                          onClick={() => handleFavorite()}
-                        />
-                      </div>
+                      <FavoriteIcon
+                        className="favourite_icon"
+                        style={{ color: favoriteColor ? "red" : "grey" }}
+                        onClick={() => handleFavorite()}
+                      />
                     </div>
                   </div>
-                </div>
-                <div className="icon_container">
+
                   <div className="second_icon_container">
-                    <div className="icons_right">
-                      <div className="like">
-                        <ThumbUpAltOutlined
-                          className="right_icon"
-                          style={{ color: thumbsUpColor ? "green" : "gray" }}
-                          onClick={() => handleLike()}
-                        />
-                      </div>
-                      <div className="dislike">
-                        <ThumbDownOutlined
-                          className="right_icon"
-                          style={{ color: thumbsDownColor ? "rgb(184, 8, 8)" : "grey" }}
-                          onClick={() => handleDislike()}
-                        />
-                      </div>
-                      <div className="watch_later">
-                        <WatchLaterIcon
-                          className="right_icon"
-                          style={{ color: watchLaterColor ? "blanchedalmond" : "grey" }}
-                          onClick={() => handleWatchLater()}
-                        ></WatchLaterIcon>
-                      </div>
-                      <div className="acess_time">
-                        <AccessTimeIcon
-                          className="right_icon"
-                          style={{ color: acessTimeColor ? "rgb(197, 170, 129)" : "grey" }}
-                          onClick={() => handleCompleted()}
-                        ></AccessTimeIcon>
-                      </div>
+                    <div className="like">
+                      <ThumbUpAltOutlined
+                        className="right_icon"
+                        style={{ color: thumbsUpColor ? "green" : "grey" }}
+                        onClick={() => handleLike()}
+                      />
+                    </div>
+                    <div className="dislike">
+                      <ThumbDownOutlined
+                        className="right_icon"
+                        style={{ color: thumbsDownColor ? "rgb(184, 8, 8)" : "grey" }}
+                        onClick={() => handleDislike()}
+                      />
+                    </div>
+                    <div className="watch_later">
+                      <WatchLaterIcon
+                        className="right_icon"
+                        style={{ color: watchLaterColor ? "blanchedalmond" : "grey" }}
+                        onClick={() => handleWatchLater()}
+                      ></WatchLaterIcon>
+                    </div>
+                    <div className="acess_time">
+                      <AccessTimeIcon
+                        className="right_icon"
+                        style={{ color: acessTimeColor ? "rgb(197, 170, 129)" : "grey" }}
+                        onClick={() => handleCompleted()}
+                      ></AccessTimeIcon>
                     </div>
                   </div>
                 </div>
               </div>
             </Grid>
-            <Grid item xs={12} lg={5}>
+            <Grid item xs={12} lg={6}>
               <div className="movie_poster">
                 <img
                   src={item.poster}

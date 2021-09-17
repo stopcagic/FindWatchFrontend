@@ -1,3 +1,5 @@
+ $small: 567px;
+$medium: 785px;
 .register {
   width: 80vw;
   height: 100vh;
@@ -9,6 +11,13 @@
     url("https://i.pinimg.com/originals/e1/54/08/e1540876956576d6391c8b96be0a25bc.jpg");
   background-size: cover;
   position: relative;
+  @media screen and (max-width: $medium) {
+    width: 100%;
+  }
+
+  @media screen and (max-width: $small) {
+    width: 100%;
+  }
 
   .container {
     width: 100%;
@@ -21,6 +30,15 @@
     align-items: center;
     justify-content: center;
     color: white;
+    @media screen and (max-width: $medium) {
+      flex-direction: row;
+      z-index: 999;
+    }
+
+    @media screen and (max-width: $small) {
+      flex-direction: row;
+      z-index: 999;
+    }
 
     form {
       width: 400px;
