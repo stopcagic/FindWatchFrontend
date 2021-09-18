@@ -3,16 +3,16 @@ import Featured from "../../featured/Featured";
 import List from "../../list/List";
 
 
-const Home = ({ isLoggedIn }) => {
+const Home = () => {
   return (
     <div className="home">
       <div className="content">
         <Featured type="movie" />
 
-        <List isLoggedIn={isLoggedIn} type="Recommended" />
-        <List isLoggedIn={isLoggedIn} type="Most Popular" />
-        <List isLoggedIn={isLoggedIn} type="Comming Soon" />
-        <List isLoggedIn={isLoggedIn} type="In Theaters" />
+        <List type="Recommended" />
+        <List type="Most Popular" />
+        <List type="Comming Soon" />
+        <List type="In Theaters" />
 
       </div>
     </div>

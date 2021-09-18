@@ -86,27 +86,50 @@ const auth = {
   },
 };
 
+const getUser = {
+  async get(userId) {
+    let response = await Services.get(`/user?userId=${userId}`)
+
+    let data = await response.data;
+    let status = response.status
+
+    return {
+      status: status,
+      message: data,
+    };
+  }
+}
+
 const updateProfile = {
   async updatePassword(user_id, new_password) {
-    let response = await Services.patch({
+    let response = await Services.patch("/user", {
       userId: user_id,
       password: new_password,
     });
     let data = await response.data;
+    let status = response.status
 
-    return data;
+    return {
+      status: status,
+      message: data,
+    };
   },
   async updateUsername(user_id, username) {
-    let response = await Services.patch({
+
+    let response = await Services.patch("/user", {
       userId: user_id,
       username: username,
     });
 
     let data = await response.data;
+    let status = response.status
 
-    return data;
+    return {
+      status: status,
+      message: data,
+    };
   },
 };
 
 
-export { Services, auth, updateProfile };
+export { Services, auth, updateProfile, getUser };

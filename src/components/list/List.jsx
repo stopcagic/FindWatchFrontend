@@ -8,12 +8,14 @@ import "./list.scss";
 import { Link } from "react-router-dom";
 import { movies } from "../../services/routes/movies";
 import { fetch } from "../../services/routes/baseCalls"
+import { CircularProgress } from "@material-ui/core";
 import { auth } from "../../services/index"
 
-export default function List({ type, isLoggedIn }) {
+export default function List({ type }) {
   const [isMoved, setIsMoved] = useState(false);
   const [slideNumber, setSlideNumber] = useState(0);
   const [data, setData] = useState([]);
+  const [isLoggedIn, setIsLoggedIn] = useState(null)
 
 
   const listRef = useRef();
@@ -25,7 +27,7 @@ export default function List({ type, isLoggedIn }) {
       setSlideNumber(slideNumber - 1);
       listRef.current.style.transform = `translateX(${300 + distance}px)`;
     }
-    if (direction === "right" && slideNumber < 5) {
+    if (direction === "right" && slideNumber < 10) {
       setSlideNumber(slideNumber + 1);
       listRef.current.style.transform = `translateX(${-700 + distance}px)`;
     }
@@ -52,6 +54,7 @@ export default function List({ type, isLoggedIn }) {
 
 
   useEffect(() => {
+    setIsLoggedIn(auth.getAuthenticated())
     let mostPopular = type === "Most Popular" ? movies.mostPopular : null;
     let commingSoon = type === "Comming Soon" ? movies.commingSoon : null;
     let inTheaters = type === "In Theaters" ? movies.inTheaters : null;
@@ -83,39 +86,47 @@ export default function List({ type, isLoggedIn }) {
             </div>
           </Link> */}
           {
-            type === "Recommended" ?
+            type === "Recommended" ? !data.length ? <CircularProgress /> :
               data.map((x) => {
                 let item = x.object_type === "movie" ?
                   <div className="item" key={x.jw_entity_id
                   }>
-                    <Link to={{
-                      pathname: "/movie",
-                      data: {
-                        id: x.id,
-                        type: "movie"
-                      }
-                    }} >
-                      <ListItem key={x.jw_entity_id} title={x.title} image={x.poster} />
-                    </Link>
+                    {
+                      !isLoggedIn ? <div><ListItem key={x.jw_entity_id} title={x.title} image={x.poster} /></div> :
+                        <Link to={{
+                          pathname: "/movie",
+                          data: {
+                            id: x.id,
+                            type: "movie"
+                          }
+                        }} >
+                          <ListItem key={x.jw_entity_id} title={x.title} image={x.poster} />
+                        </Link>
+                    }
+
                   </div>
                   :
                   <div className="item" key={x.jw_entity_id
                   }>
-                    <Link to={{
-                      pathname: "/serie",
-                      data: {
-                        id: x.id,
-                        type: "show"
-                      }
-                    }}>
-                      <ListItem key={x.jw_entity_id} title={x.title} image={x.poster} />
-                    </Link>
+                    {
+                      !isLoggedIn ? <div><ListItem key={x.jw_entity_id} title={x.title} image={x.poster} /></div> :
+                        <Link to={{
+                          pathname: "/serie",
+                          data: {
+                            id: x.id,
+                            type: "show"
+                          }
+                        }}>
+                          <ListItem key={x.jw_entity_id} title={x.title} image={x.poster} />
+                        </Link>
+                    }
+
                   </div>
 
                 return item;
               })
               :
-              data.map((x) => {
+              !data.length ? <CircularProgress /> : data.map((x) => {
                 return (
                   <Link to={{
                     pathname: "/movie",
@@ -124,7 +135,7 @@ export default function List({ type, isLoggedIn }) {
                       type: "movie"
                     }
                   }} key={x.id}>
-                    <ListItem isLoggedIn={isLoggedIn} key={x.id} title={x.title} image={x.image} />
+                    <ListItem key={x.id} title={x.title} image={x.image} />
                   </Link>
                 );
               })}

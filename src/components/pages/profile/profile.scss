@@ -27,15 +27,21 @@ $medium: 785px;
   .profile_container {
     margin-left: 80px;
     margin-top: 100px;
+    @media screen and (max-width: $medium) {
+      margin-right: 50px;
+    }
+    @media screen and (max-width: $small) {
+      margin-right: 50px;
+    }
 
     .profile_header {
       background-color: rgb(29, 28, 28);
       color: white;
       padding: 20px;
+      word-wrap: break-word;
     }
   }
-
-  .avatar {
+   .avatar {
     display: flex;
     h2 {
       margin-left: 20px;
@@ -97,10 +103,10 @@ $medium: 785px;
       font-size: 25px;
     }
   }
-
-  .input_password {
+   .input_password {
     display: flex;
     justify-content: space-around;
+
     margin-top: 20px;
     margin-bottom: 20px;
 
@@ -111,12 +117,40 @@ $medium: 785px;
       flex-direction: column;
     }
 
+    .button_submit {
+      display: inline-block;
+      cursor: pointer;
+      background-color: transparent;
+      padding: 0.35em 1.2em;
+      border: 0.1em solid #ffffff;
+      margin: 0 0.3em 0.3em 0;
+      border-radius: 0.12em;
+      box-sizing: border-box;
+      text-decoration: none;
+      font-weight: 300;
+      color: #ffffff;
+      text-align: center;
+      transition: all 0.2s;
+
+      &:hover {
+        color: #000000;
+        background-color: #ffffff;
+      }
+      @media screen and (max-width: $medium) {
+        margin-top: 10px;
+      }
+      @media screen and (max-width: $small) {
+        margin-top: 10px;
+      }
+    }
+
     input {
       margin-top: 10px;
       background-color: transparent;
       border: 1px solid white;
       border-radius: 20px;
       height: 20px;
+      color: white;
     }
   }
   .wrapper {

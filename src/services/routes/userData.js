@@ -76,6 +76,32 @@ const getUserData = {
       message: data,
     };
   },
+
+  async getSpeficicSeason(user_id, sesasonJwId) {
+    let response = await Services.get(
+      `${userDataUrl}/userSeasonData/season?userId=${user_id}&seasonJwId=${sesasonJwId}`
+    );
+    let data = await response.data;
+    let status = response.status
+
+    return {
+      status: status,
+      message: data,
+    };
+  },
+
+  async getSpeficicEpisode(sesasonJwId, epNumber) {
+    let response = await Services.get(
+      `${userDataUrl}/userEpisodeData/episode?seasonJwId=${sesasonJwId}&epNumber=${epNumber}`
+    );
+    let data = await response.data;
+    let status = response.status
+
+    return {
+      status: status,
+      message: data,
+    };
+  },
 };
 
 const postUserData = {
@@ -129,6 +155,7 @@ const patchUserData = {
       `${userDataUrl}/userEpisodeData/${user_id}/${season_jw_id}/${epNum}`,
       changeObject
     );
+
     let data = await response.data;
     let status = response.status
 

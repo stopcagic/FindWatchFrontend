@@ -1,33 +1,43 @@
 import React from "react";
 import "./profile.scss";
-import Grid from "@material-ui/core/Grid";
+import { Grid, CircularProgress } from "@material-ui/core";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import WatchLaterIcon from "@material-ui/icons/WatchLater";
 import AccessTimeIcon from "@material-ui/icons/AccessTime";
 import Star from "@material-ui/icons/Star";
 import { ThumbUpAltOutlined, ThumbDownOutlined } from "@material-ui/icons";
 import ListItem from "../../../components/listItem/ListItem";
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import Avatar from "@material-ui/core/Avatar";
 import {
   ArrowBackIosOutlined,
   ArrowForwardIosOutlined,
 } from "@material-ui/icons";
 import { Link } from "react-router-dom";
+import { auth, getUser, updateProfile } from "../../../services/index"
+import { getUserData, } from "../../../services/routes/userData"
+import moment from "moment"
 
-function Movie() {
+function Profile() {
   const [isMoved, setIsMoved] = useState(false);
   const [slideNumber, setSlideNumber] = useState(0);
 
   const [changeUsername, setChangeUsername] = useState(false);
   const [changePassword, setChangePassword] = useState(false);
 
-  const [favoriteColor, setFavoriteColor] = useState("grey");
-  const [starColor, setStarColor] = useState("grey");
-  const [thumbsUpColor, setThumbsUpColor] = useState("grey");
-  const [thumbsDownColor, setThumbsDownColor] = useState("grey");
-  const [watchLaterColor, setWatchLaterColor] = useState("grey");
-  const [acessTimeColor, setAcessTimeColor] = useState("grey");
+  const [favoriteColor, setFavoriteColor] = useState(true);
+  const [starColor, setStarColor] = useState(false);
+  const [thumbsUpColor, setThumbsUpColor] = useState(false);
+  const [thumbsDownColor, setThumbsDownColor] = useState(false);
+  const [watchLaterColor, setWatchLaterColor] = useState(false);
+  const [acessTimeColor, setAcessTimeColor] = useState(false);
+  const [data, setData] = useState([]);
+  const [user, setUser] = useState({ username: "", email: "", registeredAt: "", lastLogin: "" });
+  const [newUsername, setNewUsername] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [newRepeatPassword, setNewRepeatPassword] = useState("");
+  const [notification, setNotification] = useState("");
+
 
   const listRef = useRef();
 
@@ -37,12 +47,78 @@ function Movie() {
     if (direction === "left" && slideNumber > 0) {
       setSlideNumber(slideNumber - 1);
       listRef.current.style.transform = `translateX(${300 + distance}px)`;
+      if (slideNumber < 1) setIsMoved(false)
     }
-    if (direction === "right" && slideNumber < 5) {
+    if (direction === "right" && slideNumber < 10) {
       setSlideNumber(slideNumber + 1);
       listRef.current.style.transform = `translateX(${-700 + distance}px)`;
     }
   };
+
+  const fetchProperty = async (property, state) => {
+    const userId = auth.getUserId();
+    if (userId !== "User not logged In." && state === true) {
+      const response = await getUserData.getByProperty(userId, property)
+      if (response.status === 200) {
+        setData(response.message)
+      }
+    }
+  }
+
+  const fetchUserData = async () => {
+    const userId = auth.getUserId();
+    if (userId !== "User not logged In.") {
+      const uData = await getUser.get(userId)
+      setUser(uData.message);
+    }
+  }
+  const handleUsernameValue = e => {
+    setNewUsername(e.target.value)
+  }
+  const handlePasswordValue = e => {
+    setNewPassword(e.target.value)
+  }
+  const handleRepeatPasswordValue = e => {
+    setNewRepeatPassword(e.target.value)
+  }
+  const handleUsername = async () => {
+    const userId = auth.getUserId();
+    if (userId !== "User not logged In.") {
+      const response = await updateProfile.updateUsername(userId, newUsername);
+      if (response.status !== 200) {
+        setNotification(response.message);
+      }
+      else {
+        await fetchUserData()
+        setNotification("Username Update Successful.")
+      }
+    }
+  }
+
+  const handlePassword = async () => {
+    const userId = auth.getUserId();
+    if (userId !== "User not logged In.") {
+      if (newPassword == newRepeatPassword) {
+        const response = await updateProfile.updatePassword(userId, newPassword);
+        if (response.status !== 200) {
+          setNotification(response.message);
+        }
+        else {
+          await fetchUserData()
+          setNotification("Password Update Successful.")
+        }
+      }
+      else {
+        setNotification("Passwords do not match.")
+      }
+    }
+  }
+
+  useEffect(() => {
+    fetchUserData()
+    fetchProperty("favorite", true)
+    setNotification("")
+  }, []);
 
   return (
     <div id="profile">
@@ -52,13 +128,15 @@ function Movie() {
             <div className="profile_header">
               <div className="avatar">
                 <Avatar className="avatar_icon" />
-                <h2>Username</h2>
+                <h2>{user.username}</h2>
               </div>
               <div className="info">
-                <h3>Email:</h3>
-                <p>registeredAt: </p>
-                <p>lastLogin: </p>
+                <h3>Email: {user.email}</h3>
+                <p><b>Registered At:</b> {moment(user.registeredAt).format("YYYY/MM/DD")} </p>
+                <p><b>Last Login:</b> {moment(user.lastLogin).format("YYYY/MM/DD")}</p>
               </div>
+
+              <div className="notification"><h3>{notification}</h3></div>
               <hr />
               <div className="change">
                 <button
@@ -83,32 +161,26 @@ function Movie() {
               {changePassword ? (
                 <div className="input_password">
                   <div className="input">
-                    <p>Old password</p>
-                    <input type="text" />
+                    <p>New password</p>
+                    <input type="text" onChange={handlePasswordValue} />
                   </div>
 
                   <div className="input">
-                    <p>New password</p>
-                    <input type="text" />
-                  </div>
-                  <div className="input">
                     <p>Repeat password</p>
-                    <input type="text" />
+                    <input type="text" onChange={handleRepeatPasswordValue} />
                   </div>
+
+                  <button className="button_submit" onClick={handlePassword}>Submit</button>
                 </div>
               ) : null}
               <hr />
               {changeUsername ? (
                 <div className="input_password">
                   <div className="input">
-                    <p>Old password</p>
-                    <input type="text" />
-                  </div>
-
-                  <div className="input">
                     <p>New Username</p>
-                    <input type="text" />
+                    <input type="text" onChange={handleUsernameValue} />
                   </div>
+                  <button className="button_submit" onClick={handleUsername}>Submit</button>
                 </div>
               ) : null}
             </div>
@@ -122,19 +194,38 @@ function Movie() {
                 style={{ display: !isMoved && "none" }}
               />
               <div className="container" ref={listRef}>
-                <Link to="/movie">
-                  <ListItem index={0} />
-                </Link>
+                {
+                  data.length ? data.map((x) => {
+                    let item = x.object_type === "movie" ?
+                      <div className="item" key={x.jw_entity_id
+                      }>
+                        <Link to={{
+                          pathname: "/movie",
+                          data: {
+                            id: x.id,
+                            type: "movie"
+                          }
+                        }} >
+                          <ListItem key={x.jw_entity_id} title={x.title} image={x.poster} />
+                        </Link>
+                      </div>
+                      :
+                      <div className="item" key={x.jw_entity_id
+                      }>
+                        <Link to={{
+                          pathname: "/serie",
+                          data: {
+                            id: x.id,
+                            type: "show"
+                          }
+                        }}>
+                          <ListItem key={x.jw_entity_id} title={x.title} image={x.poster} />
+                        </Link>
+                      </div>
 
-                <ListItem index={1} />
-                <ListItem index={2} />
-                <ListItem index={3} />
-                <ListItem index={4} />
-                <ListItem index={5} />
-                <ListItem index={6} />
-                <ListItem index={7} />
-                <ListItem index={8} />
-                <ListItem index={9} />
+                    return item;
+                  }) : <div className="noItems"><CircularProgress /></div>
+                }
               </div>
               <ArrowForwardIosOutlined
                 className="sliderArrow right"
@@ -147,41 +238,60 @@ function Movie() {
               <button className="favourite">
                 <FavoriteIcon
                   className="icon_size"
-                  style={{ color: favoriteColor }}
+                  style={{ color: favoriteColor ? "red" : "grey" }}
                   onClick={() => {
-                    if (favoriteColor === "grey") setFavoriteColor("red");
-                    else setFavoriteColor("grey");
+                    setFavoriteColor(!favoriteColor)
+                    setStarColor(false)
+                    setThumbsUpColor(false)
+                    setThumbsDownColor(false)
+                    setWatchLaterColor(false)
+                    setAcessTimeColor(false)
+                    fetchProperty("favorite", !favoriteColor)
                   }}
                 />
               </button>
               <button className="star">
                 <Star
                   className="icon_size"
-                  style={{ color: starColor }}
+                  style={{ color: starColor ? "yellow" : "grey" }}
                   onClick={() => {
-                    if (starColor === "grey") setStarColor("yellow");
-                    else setStarColor("grey");
+                    setFavoriteColor(false)
+                    setStarColor(!starColor)
+                    setThumbsUpColor(false)
+                    setThumbsDownColor(false)
+                    setWatchLaterColor(false)
+                    setAcessTimeColor(false)
+                    fetchProperty("rating", !starColor)
                   }}
                 />
               </button>
               <button className="thumbsUp">
                 <ThumbUpAltOutlined
                   className="icon_size"
-                  style={{ color: thumbsUpColor }}
+                  style={{ color: thumbsUpColor ? "green" : "grey" }}
                   onClick={() => {
-                    if (thumbsUpColor === "grey") setThumbsUpColor("green");
-                    else setThumbsUpColor("grey");
+                    setFavoriteColor(false)
+                    setStarColor(false)
+                    setThumbsUpColor(!thumbsUpColor)
+                    setThumbsDownColor(false)
+                    setWatchLaterColor(false)
+                    setAcessTimeColor(false)
+                    fetchProperty("like", !thumbsUpColor)
                   }}
                 />
               </button>
               <button className="thumbsDown">
                 <ThumbDownOutlined
                   className="icon_size"
-                  style={{ color: thumbsDownColor }}
+                  style={{ color: thumbsDownColor ? "rgb(184, 8, 8)" : "grey" }}
                   onClick={() => {
-                    if (thumbsDownColor === "grey")
-                      setThumbsDownColor("rgb(184, 8, 8)");
-                    else setThumbsDownColor("grey");
+                    setFavoriteColor(false)
+                    setStarColor(false)
+                    setThumbsUpColor(false)
+                    setThumbsDownColor(!thumbsDownColor)
+                    setWatchLaterColor(false)
+                    setAcessTimeColor(false)
+                    fetchProperty("dislike", !thumbsDownColor)
                   }}
                 />
               </button>
@@ -189,22 +299,30 @@ function Movie() {
               <button className="watch_later">
                 <WatchLaterIcon
                   className="icon_size"
-                  style={{ color: watchLaterColor }}
+                  style={{ color: watchLaterColor ? "blanchedalmond" : "grey" }}
                   onClick={() => {
-                    if (watchLaterColor === "grey")
-                      setWatchLaterColor("blanchedalmond");
-                    else setWatchLaterColor("grey");
+                    setFavoriteColor(false)
+                    setStarColor(false)
+                    setThumbsUpColor(false)
+                    setThumbsDownColor(false)
+                    setWatchLaterColor(!watchLaterColor)
+                    setAcessTimeColor(false)
+                    fetchProperty("watch_later", !watchLaterColor)
                   }}
                 />
               </button>
               <button className="watch_later">
                 <AccessTimeIcon
                   className="icon_size"
-                  style={{ color: acessTimeColor }}
+                  style={{ color: acessTimeColor ? "rgb(197, 170, 129)" : "grey" }}
                   onClick={() => {
-                    if (acessTimeColor === "grey")
-                      setAcessTimeColor("rgb(197, 170, 129)");
-                    else setAcessTimeColor("grey");
+                    setFavoriteColor(false)
+                    setStarColor(false)
+                    setThumbsUpColor(false)
+                    setThumbsDownColor(false)
+                    setWatchLaterColor(false)
+                    setAcessTimeColor(!acessTimeColor)
+                    fetchProperty("completed", !acessTimeColor)
                   }}
                 />
               </button>
@@ -218,4 +336,4 @@ function Movie() {
   );
 }
 
-export default Movie;
+export default Profile;

@@ -7,15 +7,14 @@ import AccessTimeIcon from "@material-ui/icons/AccessTime";
 
 import { Rating } from "react-simple-star-rating";
 import { ThumbUpAltOutlined, ThumbDownOutlined } from "@material-ui/icons";
-import { withStyles } from "@material-ui/core/styles";
-import MuiAccordion from "@material-ui/core/Accordion";
-import MuiAccordionSummary from "@material-ui/core/AccordionSummary";
-import MuiAccordionDetails from "@material-ui/core/AccordionDetails";
-import Typography from "@material-ui/core/Typography";
+
+
+
 import { TextField } from "@material-ui/core";
 import { fetch } from "../../../services/routes/baseCalls"
 import { auth } from "../../../services/index"
 import { patchUserData } from "../../../services/routes/userData"
+import Sezona from "./Sezona"
 
 function Serie(props) {
   const [rating, setRating] = useState(0);
@@ -36,55 +35,11 @@ function Serie(props) {
     },
     poster: "",
     clips: [{ external_id: "" }],
-    seasons: [{ title: "" }]
+    seasons: [{ id: "", title: "", episodes: { episodes: [] } }]
   });
   const [error, setError] = useState(null);
-  const Accordion = withStyles({
-    root: {
-      border: "1px solid white",
-      backgroundColor: "rgb(32, 31, 31)",
-      color: "white",
-      boxShadow: "none",
-      "&:not(:last-child)": {
-        borderBottom: 0,
-      },
-      "&:before": {
-        display: "none",
-      },
-      "&$expanded": {
-        margin: "auto",
-      },
-    },
-    expanded: {},
-  })(MuiAccordion);
-  const AccordionSummary = withStyles({
-    root: {
-      backgroundColor: "rgba(0, 0, 0, .03)",
-      borderBottom: "1px solid rgba(0, 0, 0, .125)",
-      marginBottom: -1,
-      minHeight: 56,
-      "&$expanded": {
-        minHeight: 56,
-      },
-    },
-    content: {
-      "&$expanded": {
-        margin: "12px 0",
-      },
-    },
-    expanded: {},
-  })(MuiAccordionSummary);
-  const AccordionDetails = withStyles((theme) => ({
-    root: {
-      padding: theme.spacing(2),
-    },
-  }))(MuiAccordionDetails);
 
-  const [expanded, setExpanded] = React.useState("panel1");
 
-  const handleChange = (panel) => (event, newExpanded) => {
-    setExpanded(newExpanded ? panel : false);
-  };
 
   const handleRating = async (rate) => {
     const userId = auth.getUserId()
@@ -296,35 +251,7 @@ function Serie(props) {
             <Grid item xs={12} lg={6}>
               <div className="accordion">
                 {
-                  item.seasons?.map(x => <div className="sezona">
-                    <AccessTimeIcon
-                      className="season_icon"
-                      style={{ color: episodeColor ? "white" : "grey", cursor: "pointer" }}
-                      onClick={() => setEpisodeColor(!episodeColor)}
-                    ></AccessTimeIcon>
-                    <Accordion
-                      square
-                      expanded={expanded === "panel1"}
-                      onChange={handleChange("panel1")}
-                    >
-                      <AccordionSummary
-                        aria-controls="panel1d-content"
-                        id="panel1d-header"
-                      >
-                        <Typography>{x.title}</Typography>
-                      </AccordionSummary>
-
-                      <AccordionDetails className="episode">
-                        <Typography>Episode 1</Typography>
-                        <AccessTimeIcon
-                          style={{ color: episodeColor ? "white" : "grey", cursor: "pointer" }}
-                          onClick={() => setEpisodeColor(!episodeColor)}
-                        ></AccessTimeIcon>
-                      </AccordionDetails>
-                    </Accordion>
-                  </div>)
-                }
-
+                  item.seasons?.map(x => <Sezona sezona={x} key={x.id} />)}
               </div>
             </Grid>
             <Grid item xs={12} lg={6}>
@@ -334,7 +261,7 @@ function Serie(props) {
             </Grid>
             <Grid item xs={12} lg={5}>
               <div className="movie_video">
-                <iframe className="video" width="510" height="315" src={`https://www.youtube.com/embed/${item.clips[0].external_id}`} title={item.title} frameBorder="1" allowFullScreen></iframe>
+                <iframe className="video" width="510" height="315" src={`https://www.youtube-nocookie.com/embed/${item.clips[0].external_id}`} title={item.title} frameBorder="1" allowFullScreen></iframe>
               </div>
             </Grid>
           </Grid>

@@ -1,7 +1,6 @@
-import { useState, useEffect } from "react";
 import "./app.scss";
 import Home from "../src/components/pages/home/Home";
-import { BrowserRouter, Switch, Route } from "react-router-dom";
+import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
 import Register from "../src/components/pages/register/Register";
 import Login from "../src/components/pages/login/Login";
 import Profile from "./components/pages/profile/Profile";
@@ -14,26 +13,39 @@ import { auth } from "./services/index"
 
 function App() {
 
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-  useEffect(() => {
-    setIsLoggedIn(auth.getAuthenticated());
-  }, []);
+  const PrivateRoute = ({ component: Component }) => {
+
+    const isLoggedIn = auth.getAuthenticated()
+
+    return (
+      <Route
+        render={() =>
+          isLoggedIn ? (
+            <Component />
+          ) : (
+            <Redirect to={{ pathname: '/login' }} />
+          )
+        }
+      />
+    )
+  }
+
 
   return (
     <div className="app_wrapper">
       <BrowserRouter>
         <div className="App" type="movie">
-          <Navbar isLoggedId={isLoggedIn} />
-          <Sidebar isLoggedId={isLoggedIn} />
+          <Navbar />
+          <Sidebar />
           <Switch>
-            <Route path="/" isLoggedId={isLoggedIn} exact component={Home}></Route>
-            <Route path="/register" setIsLoggedIn={setIsLoggedIn} exact component={Register}></Route>
-            <Route path="/login" setIsLoggedIn={setIsLoggedIn} exact component={Login}></Route>
-            <Route path="/profile" exact component={Profile}></Route>
-            <Route path="/movie" exact component={Movie}></Route>
-            <Route path="/movieList" exact component={MovieList}></Route>
-            <Route path="/serie" exact component={Serie}></Route>
+            <Route path="/" exact component={Home}></Route>
+            <Route path="/register" exact component={Register}></Route>
+            <Route path="/login" exact component={Login}></Route>
+            <PrivateRoute path="/profile" component={<Route path="/profile" exact component={Profile} ></Route>} />
+            <PrivateRoute path="/movie" component={<Route path="/movie" exact component={Movie} ></Route>} />
+            <PrivateRoute path="/movieList" component={<Route path="/movieList" exact component={MovieList} ></Route>} />
+            <PrivateRoute path="/serie" component={<Route path="/serie" exact component={Serie} ></Route>} />
           </Switch>
         </div>
       </BrowserRouter>

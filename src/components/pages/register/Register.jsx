@@ -51,11 +51,11 @@ export default function Register() {
           <h1>Registracija</h1>
           {error != null ? <div><p>{error}</p></div> : null}
           <hr />
-          <input type="surname" placeholder="Unesite username" onChange={handleUsername} />
-          <input type="email" placeholder="Unesite email" onChange={handleEmail} />
-          <input type="password" placeholder="Unesite lozinku" onChange={handlePassword} />
-          <input type="password" placeholder="Ponovno unesite lozinku" onChange={handleRepeatedPassword} />
-          <button className="loginButton">Registriraj se</button>
+          <input type="surname" placeholder="Username" onChange={handleUsername} />
+          <input type="email" placeholder="Email" onChange={handleEmail} />
+          <input type="password" placeholder="Password" onChange={handlePassword} />
+          <input type="password" placeholder="Repeat Password" onChange={handleRepeatedPassword} />
+          <button className="loginButton">Register</button>
         </form>
       </div>
     </div >

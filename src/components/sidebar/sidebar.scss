@@ -7,7 +7,7 @@ $medium: 785px;
   font-size: 14px;
   position: fixed;
   top: 0;
-  z-index: 1000;
+  z-index: 999;
   background: #1b1b1b;
 
   @media screen and (max-width: $medium) {
@@ -29,6 +29,7 @@ $medium: 785px;
     vertical-align: center;
     text-decoration: none;
     cursor: pointer;
+    margin-top: 70px;
   }
   .menuButton {
     display: flex;
@@ -42,6 +43,7 @@ $medium: 785px;
     left: 100px;
     width: 250px;
     border-radius: 20px;
+    margin-top: 75px;
     background-color: rgb(34, 33, 33);
 
     .option_container {

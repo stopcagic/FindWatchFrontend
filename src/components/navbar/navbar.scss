@@ -7,10 +7,11 @@ $medium: 785px;
   font-size: 14px;
   position: fixed;
   top: 0;
-  z-index: 999;
+  z-index: 1000;
   background-color: #1b1b1b;
   @media screen and (max-width: $medium) {
     width: 100%;
+    height: 60px;
   }
   @media screen and (max-width: $small) {
     width: 100%;
@@ -22,6 +23,12 @@ $medium: 785px;
     align-items: center;
     justify-content: space-between;
     height: 70px;
+    @media screen and (max-width: $medium) {
+      justify-content: space-around;
+    }
+    @media screen and (max-width: $small) {
+      justify-content: space-around;
+    }
 
     .left {
       display: flex;
@@ -54,7 +61,7 @@ $medium: 785px;
       .logo {
         width: 40px;
         height: 40px;
-        margin-left: 25px;
+
         -webkit-transform: rotate(-10deg);
         -moz-transform: rotate(-10deg);
         -ms-transform: rotate(-10deg);
@@ -67,6 +74,7 @@ $medium: 785px;
     .right {
       display: flex;
       align-items: center;
+      justify-content: space-around;
 
       .icon {
         margin: 0px 15px;
@@ -83,16 +91,20 @@ $medium: 785px;
       }
 
       .profile {
+      
         .options {
+       
           display: none;
           background-color: var(--main-color);
           border-radius: 5px;
           width: 150px;
+     
         }
 
         .button {
           color: white;
           cursor: pointer;
+         
         }
 
         &:hover {

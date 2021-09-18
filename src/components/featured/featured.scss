@@ -1,3 +1,5 @@
+$small: 567px;
+$medium: 785px;
 .featured {
   height: 60vh;
   position: relative;
@@ -32,17 +34,26 @@
     width: 35%;
     position: absolute;
     left: 50px;
-    bottom: 100px;
+    bottom: 70px;
     color: white;
     display: flex;
     flex-direction: column;
+    @media screen and (max-width: $medium) {
+      font-size: 15px;
+      width: 70%;
+    }
+    @media screen and (max-width: $small) {
+      font-size: 15px;
+      width: 70%;
+    }
 
-    img {
-      width: 35%;
+    .lacasa {
+      width: 30%;
     }
 
     .desc {
       margin: 20px 0px;
+      text-align: center;
     }
   }
 }

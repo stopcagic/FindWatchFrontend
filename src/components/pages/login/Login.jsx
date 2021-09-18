@@ -2,7 +2,7 @@ import "./login.scss";
 import { auth } from "../../../services/index"
 import { useHistory } from "react-router-dom";
 import { useState } from "react";
-
+import { Link } from "react-router-dom";
 export default function Login() {
 
   const history = useHistory();
@@ -21,6 +21,7 @@ export default function Login() {
       else {
         console.log("HI");
         history.push("/")
+        window.location.reload();
       }
     }
     else {
@@ -47,7 +48,9 @@ export default function Login() {
           <input type="password" placeholder="Password" onChange={handlePassword} />
           <button className="loginButton">Prijavi se</button>
           <span>
-            Nemaš račun? <b>Registriraj se</b>
+            Nemaš račun?
+            <Link to="/register"> <b>Registriraj se</b></Link>
+
           </span>
         </form>
       </div>

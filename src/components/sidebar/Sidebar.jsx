@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./sidebar.scss";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import AccessTimeIcon from "@material-ui/icons/AccessTime";
 import ThumbUpAltIcon from "@material-ui/icons/ThumbUpAlt";
+import WatchLaterIcon from "@material-ui/icons/WatchLater";
 import TvIcon from "@material-ui/icons/Tv";
 import SideNav, { NavItem, NavIcon, NavText } from "@trendmicro/react-sidenav";
 import "@trendmicro/react-sidenav/dist/react-sidenav.css";
@@ -11,7 +12,7 @@ import { getUserData } from "../../services/routes/userData"
 import { auth } from "../../services/index"
 import { useHistory } from "react-router-dom";
 
-function Sidebar({ isLoggedIn }) {
+function Sidebar() {
   const history = useHistory();
 
   const [showDiv, setShowDiv] = useState(false);
@@ -24,6 +25,7 @@ function Sidebar({ isLoggedIn }) {
   const [ratingMax, setRatingMax] = useState(null)
   const [releaseYearFrom, setReleaseYearFrom] = useState(null)
   const [releaseYearTo, setReleaseYearTo] = useState(null)
+  const [isLoggedIn, setIsLoggedIn] = useState(null)
 
   const filterMovies = async () => {
     setShowDiv(!showDiv)
@@ -59,7 +61,7 @@ function Sidebar({ isLoggedIn }) {
       const response = await getUserData.getByProperty(userId, property)
       if (response.status === 200) {
         let data = {};
-        let title = property === "watch_later" ? "Watch Later" : property === "favorite" ? "Favorite" : property === "like" ? "Liked" : "List Of"
+        let title = property === "watch_later" ? "Watch Later" : property === "favorite" ? "Favorite" : property === "like" ? "Liked" : property === "completed" ? "Completed" : "List Of"
         data.title = `${title} Movies & Shows`
         data.items = response.message
         history.push("/movieList", data);
@@ -99,7 +101,9 @@ function Sidebar({ isLoggedIn }) {
   const relYearToHandler = event => {
     setReleaseYearTo(event.target.value);
   }
-
+  useEffect(() => {
+    setIsLoggedIn(auth.getAuthenticated())
+  }, []);
 
   return (
     <div className="sidebar">
@@ -198,48 +202,63 @@ function Sidebar({ isLoggedIn }) {
         </div>
         <div>
           <SideNav className="sideNav">
-            <div>
-              <SideNav.Nav className="icon" eventkey="home">
-                {/* -------------- Filter -------------- */}
-                <NavItem onClick={() => setShowDiv(!showDiv)} eventkey="home">
-                  <NavIcon>
-                    <TvIcon />
-                  </NavIcon>
+            {
+              !isLoggedIn ? null :
+                <div>
+                  <div><SideNav.Nav className="icon" eventkey="home">
+                    {/* -------------- Filter -------------- */}
 
-                  <NavText>Filter</NavText>
-                </NavItem>
-                {/* ---------------------------- */}
-              </SideNav.Nav>
+                    <NavItem onClick={() => setShowDiv(!showDiv)} eventkey="home">
+                      <NavIcon>
+                        <TvIcon />
+                      </NavIcon>
 
-              <SideNav.Nav>
-                {/* -------------- Pozitivno ocijenjeno -------------- */}
-                <NavItem eventkey="home">
-                  <NavIcon>
-                    <ThumbUpAltIcon onClick={() => fetchProperty("like")} />
-                  </NavIcon>
-                  <NavText>Pozitivno ocjenjeno</NavText>
-                </NavItem>
-              </SideNav.Nav>
-              <SideNav.Nav>
-                {/* -------------- Gledati kasnije -------------- */}
-                <NavItem eventkey="home">
-                  <NavIcon>
-                    <AccessTimeIcon onClick={() => fetchProperty("watch_later")} />
-                  </NavIcon>
-                  <NavText >Gledati Kasnije</NavText>
-                </NavItem>
-              </SideNav.Nav>
-              <SideNav.Nav>
-                {/* -------------- Omiljeno -------------- */}
+                      <NavText>Filter</NavText>
+                    </NavItem>
+                    {/* ---------------------------- */}
+                  </SideNav.Nav>
 
-                <NavItem eventkey="home">
-                  <NavIcon>
-                    <FavoriteIcon onClick={() => fetchProperty("favorite")} />
-                  </NavIcon >
-                  <NavText >Omiljeno</NavText>
-                </NavItem>
-              </SideNav.Nav>
-            </div>
+                    <SideNav.Nav>
+                      {/* -------------- Pozitivno ocijenjeno -------------- */}
+                      <NavItem eventkey="home">
+                        <NavIcon>
+                          <ThumbUpAltIcon onClick={() => fetchProperty("like")} />
+                        </NavIcon>
+                        <NavText>Pozitivno ocjenjeno</NavText>
+                      </NavItem>
+                    </SideNav.Nav>
+                    <SideNav.Nav>
+                      {/* -------------- Gledati kasnije -------------- */}
+                      <NavItem eventkey="home">
+                        <NavIcon>
+                          <AccessTimeIcon onClick={() => fetchProperty("watch_later")} />
+                        </NavIcon>
+                        <NavText >Gledati Kasnije</NavText>
+                      </NavItem>
+                    </SideNav.Nav>
+                    <SideNav.Nav>
+                      {/* -------------- Gledati kasnije -------------- */}
+                      <NavItem eventkey="home">
+                        <NavIcon>
+                          <WatchLaterIcon
+                            onClick={() => fetchProperty("completed")}
+                          />
+                        </NavIcon>
+                        <NavText>Gledati Kasnije</NavText>
+                      </NavItem>
+                    </SideNav.Nav>
+                    <SideNav.Nav>
+                      {/* -------------- Omiljeno -------------- */}
+                      <NavItem eventkey="home">
+                        <NavIcon>
+                          <FavoriteIcon onClick={() => fetchProperty("favorite")} />
+                        </NavIcon >
+                        <NavText >Omiljeno</NavText>
+                      </NavItem>
+                    </SideNav.Nav></div>
+                </div>
+            }
+
           </SideNav>
         </div>
       </div>

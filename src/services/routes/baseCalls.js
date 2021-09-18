@@ -21,7 +21,7 @@ const fetch = {
     return {
       status: status,
       message: data,
-    };;
+    };
   },
   async getMovieInfo(jw_id, type, user_id) {
     let response = await Services.get(
@@ -81,6 +81,16 @@ const fetch = {
       message: data,
     };
   },
+  async notifications(user_id) {
+    let response = await Services.get(`/notifications?userId=${user_id}`)
+    let data = await response.data;
+    let status = response.status
+
+    return {
+      status: status,
+      message: data,
+    };
+  }
 };
 
 export { fetch };
