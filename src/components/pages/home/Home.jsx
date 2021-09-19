@@ -11,8 +11,8 @@ const Home = () => {
 
         <List type="Recommended" />
         <List type="Most Popular" />
-        <List type="Comming Soon" />
         <List type="In Theaters" />
+        <List type="Comming Soon" />
 
       </div>
     </div>

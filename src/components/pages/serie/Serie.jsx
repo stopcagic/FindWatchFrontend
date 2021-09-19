@@ -164,8 +164,10 @@ function Serie(props) {
   }
 
   useEffect(() => {
-    const data = props.location.data
-    localStorage.setItem("dataSerie", JSON.stringify(data));
+    let data = props.location.data
+
+    data = data === undefined ? props.location?.state?.location?.data : data
+    localStorage.setItem("data", JSON.stringify(data));
     if (data !== undefined) {
       fetchItemData(data)
     }

@@ -80,16 +80,6 @@ const fetch = {
       status: status,
       message: data,
     };
-  },
-  async notifications(user_id) {
-    let response = await Services.get(`/notifications?userId=${user_id}`)
-    let data = await response.data;
-    let status = response.status
-
-    return {
-      status: status,
-      message: data,
-    };
   }
 };
 

@@ -10,28 +10,26 @@ import MovieList from "./components/pages/movieList/MovieList";
 import Sidebar from "./components/sidebar/Sidebar";
 import Serie from "./components/pages/serie/Serie";
 import { auth } from "./services/index"
+import { fetch } from "./services/routes/baseCalls"
+import { useEffect } from "react";
 
 function App() {
 
-
-  const PrivateRoute = ({ component: Component }) => {
-
-    const isLoggedIn = auth.getAuthenticated()
-
-    return (
-      <Route
-        render={() =>
-          isLoggedIn ? (
-            <Component />
-          ) : (
-            <Redirect to={{ pathname: '/login' }} />
-          )
-        }
-      />
-    )
+  const requireAuth = () => {
+    return auth.getAuthenticated()
   }
 
+  const fetchUpdates = async () => {
+    const userId = auth.getUserId()
+    if (userId !== "User not logged In.") {
+      await fetch.getUpdates(userId);
+    }
 
+  }
+
+  useEffect(() => {
+    fetchUpdates()
+  }, []);
   return (
     <div className="app_wrapper">
       <BrowserRouter>
@@ -39,13 +37,13 @@ function App() {
           <Navbar />
           <Sidebar />
           <Switch>
-            <Route path="/" exact component={Home}></Route>
+            <Route path="/" exact component={Home} ></Route>
             <Route path="/register" exact component={Register}></Route>
             <Route path="/login" exact component={Login}></Route>
-            <PrivateRoute path="/profile" component={<Route path="/profile" exact component={Profile} ></Route>} />
-            <PrivateRoute path="/movie" component={<Route path="/movie" exact component={Movie} ></Route>} />
-            <PrivateRoute path="/movieList" component={<Route path="/movieList" exact component={MovieList} ></Route>} />
-            <PrivateRoute path="/serie" component={<Route path="/serie" exact component={Serie} ></Route>} />
+            <Route path="/profile" render={() => requireAuth() ? <Route exact component={Profile} /> : <Redirect to="/login" />}></Route>
+            <Route path="/movie" render={() => requireAuth() ? <Route exact component={Movie} /> : <Redirect to="/login" />} ></Route>
+            <Route path="/movieList" render={() => requireAuth() ? <Route exact component={MovieList} /> : <Redirect to="/login" />} ></Route>
+            <Route path="/serie" render={() => requireAuth() ? <Route exact component={Serie} /> : <Redirect to="/login" />} ></Route>
           </Switch>
         </div>
       </BrowserRouter>

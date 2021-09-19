@@ -32,7 +32,7 @@ function Profile() {
   const [watchLaterColor, setWatchLaterColor] = useState(false);
   const [acessTimeColor, setAcessTimeColor] = useState(false);
   const [data, setData] = useState([]);
-  const [user, setUser] = useState({ username: "", email: "", registeredAt: "", lastLogin: "" });
+  const [user, setUser] = useState({ username: "", email: "", registeredAt: "" });
   const [newUsername, setNewUsername] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [newRepeatPassword, setNewRepeatPassword] = useState("");
@@ -133,7 +133,6 @@ function Profile() {
               <div className="info">
                 <h3>Email: {user.email}</h3>
                 <p><b>Registered At:</b> {moment(user.registeredAt).format("YYYY/MM/DD")} </p>
-                <p><b>Last Login:</b> {moment(user.lastLogin).format("YYYY/MM/DD")}</p>
               </div>
 
               <div className="notification"><h3>{notification}</h3></div>

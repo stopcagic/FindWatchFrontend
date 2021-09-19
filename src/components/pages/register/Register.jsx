@@ -48,7 +48,7 @@ export default function Register() {
     <div className="register">
       <div className="container">
         <form onSubmit={register}>
-          <h1>Registracija</h1>
+          <h1>Register</h1>
           {error != null ? <div><p>{error}</p></div> : null}
           <hr />
           <input type="surname" placeholder="Username" onChange={handleUsername} />

@@ -41,15 +41,15 @@ export default function Login() {
     <div className="login">
       <div className="container">
         <form onSubmit={login}>
-          <h1>Prijavi se</h1>
+          <h1>Login</h1>
           {error != null ? <div><p>{error}</p></div> : null}
           <hr />
-          <input type="email" placeholder="Email or phone number" onChange={handleEmail} />
+          <input type="email" placeholder="Email" onChange={handleEmail} />
           <input type="password" placeholder="Password" onChange={handlePassword} />
-          <button className="loginButton">Prijavi se</button>
+          <button className="loginButton">Login</button>
           <span>
-            Nemaš račun?
-            <Link to="/register"> <b>Registriraj se</b></Link>
+            Not registered yet?
+            <Link to="/register"> <b>register</b></Link>
 
           </span>
         </form>

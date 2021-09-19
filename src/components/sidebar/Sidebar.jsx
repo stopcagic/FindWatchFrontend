@@ -244,7 +244,7 @@ function Sidebar() {
                             onClick={() => fetchProperty("completed")}
                           />
                         </NavIcon>
-                        <NavText>Gledati Kasnije</NavText>
+                        <NavText>Pogledano</NavText>
                       </NavItem>
                     </SideNav.Nav>
                     <SideNav.Nav>

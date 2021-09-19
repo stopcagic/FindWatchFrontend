@@ -77,14 +77,6 @@ export default function List({ type }) {
         />
         <div className="container" ref={listRef}>
 
-          {/* <Link to="/movie">
-            <div className="listItem">
-              <img
-                src="https://images.justwatch.com/poster/249138360/s592"
-                alt="{name}"
-              />
-            </div>
-          </Link> */}
           {
             type === "Recommended" ? !data.length ? <CircularProgress /> :
               data.map((x) => {
