@@ -135,7 +135,7 @@ function Movie(props) {
       if (id.startsWith("tt")) {
         response = await fetch.getMovieImdbInfo(data.id, data.type, userId)
         data.id = response.message.id.toString();
-        localStorage.setItem("data", data)
+        localStorage.setItem("data", JSON.stringify(data))
       }
       else {
         response = await fetch.getMovieInfo(data.id, data.type, userId)
