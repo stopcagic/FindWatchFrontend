@@ -143,6 +143,8 @@ function Serie(props) {
       let id = data.id.toString()
       if (id.startsWith("tt")) {
         response = await fetch.getMovieInfo(data.id, data.type, userId)
+        data.id = response.message.id;
+        localStorage.setItem("dataSerie", JSON.stringify(data));
       }
       else {
         response = await fetch.getMovieInfo(data.id, data.type, userId)
@@ -167,7 +169,7 @@ function Serie(props) {
     let data = props.location.data
 
     data = data === undefined ? props.location?.state?.location?.data : data
-    localStorage.setItem("data", JSON.stringify(data));
+    localStorage.setItem("dataSerie", JSON.stringify(data));
     if (data !== undefined) {
       fetchItemData(data)
     }
