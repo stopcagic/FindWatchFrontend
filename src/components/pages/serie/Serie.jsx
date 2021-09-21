@@ -143,7 +143,7 @@ function Serie(props) {
       let id = data.id.toString()
       if (id.startsWith("tt")) {
         response = await fetch.getMovieInfo(data.id, data.type, userId)
-        data.id = response.message.id;
+        data.id = response.message.id.toString();
         localStorage.setItem("dataSerie", JSON.stringify(data));
       }
       else {
