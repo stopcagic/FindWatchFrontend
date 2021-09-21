@@ -59,9 +59,9 @@ export default function List({ type }) {
     let commingSoon = type === "Comming Soon" ? movies.commingSoon : null;
     let inTheaters = type === "In Theaters" ? movies.inTheaters : null;
     let recommeded = type === "Recommended" ? fetch.getRecommended : null;
-    // if (mostPopular && !commingSoon && !inTheaters && !recommeded) fetchData(mostPopular);
-    // if (!mostPopular && commingSoon && !inTheaters && !recommeded) fetchData(commingSoon);
-    // if (!mostPopular && !commingSoon && inTheaters && !recommeded) fetchData(inTheaters);
+    if (mostPopular && !commingSoon && !inTheaters && !recommeded) fetchData(mostPopular);
+    if (!mostPopular && commingSoon && !inTheaters && !recommeded) fetchData(commingSoon);
+    if (!mostPopular && !commingSoon && inTheaters && !recommeded) fetchData(inTheaters);
     if (!mostPopular && !commingSoon && !inTheaters && recommeded) fetchData(recommeded);
 
   }, []);
